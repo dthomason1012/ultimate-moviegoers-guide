@@ -1,35 +1,50 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Credits, Movie, Results } from "../types";
 import Poster from "../components/Poster";
+import { API_KEY, BASE_URL, IMG_BASE_URL } from "../constants";
+import { useQuery } from "@tanstack/react-query";
+
+const fetchMovie = async (id: string | undefined) => {
+  const res = await fetch(`${BASE_URL}${id}?api_key=${API_KEY}`);
+  return res.json();
+};
+
+const fetchCredits = async (id: string | undefined) => {
+  const res = await fetch(`${BASE_URL}${id}/credits?api_key=${API_KEY}`);
+  return res.json();
+};
+
+const fetchRecommended = async (id: string | undefined) => {
+  const res = await fetch(
+    `${BASE_URL}${id}/recommendations?api_key=${API_KEY}`
+  );
+  return res.json();
+};
 
 const MovieDetails: FC = () => {
-  const [movie, setMovie] = useState<Movie>();
-  const [recommended, setRecommended] = useState<Results>();
-  const [credits, setCredits] = useState<Credits>();
   const { id } = useParams();
+  const { data: movie, status: movieStatus } = useQuery(
+    ["movie", id],
+    (): Promise<Movie> | undefined => fetchMovie(id)
+  );
+  const { data: credits, status: creditsStatus } = useQuery(
+    ["credits", id],
+    (): Promise<Credits> | undefined => fetchCredits(id)
+  );
+  const { data: recommended, status: recommendedStatus } = useQuery(
+    ["recommendations", id],
+    (): Promise<Results> | undefined => fetchRecommended(id)
+  );
 
   useEffect(() => {
-    window.scroll(0, 0);
-    fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=c3bfa4bdb28d9cfa882313ad43f7ba6a&language=en-US&page=1`
-    )
-      .then((response) => response.json())
-      .then((data) => setMovie(data));
-    fetch(
-      `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=c3bfa4bdb28d9cfa882313ad43f7ba6a&language=en-US&page=1`
-    )
-      .then((response) => response.json())
-      .then((data) => setRecommended(data));
-    fetch(
-      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=c3bfa4bdb28d9cfa882313ad43f7ba6a&language=en-US&page=1`
-    )
-      .then((response) => response.json())
-      .then((data) => setCredits(data));
+    window.scrollTo(0, 0);
   }, [id]);
 
   return (
     <>
+      {movieStatus === "loading" && <div>Loading...</div>}
+      {movieStatus === "error" && <div>Error fetching data</div>}
       <div
         style={{
           padding: "30px",
@@ -38,7 +53,7 @@ const MovieDetails: FC = () => {
         }}
       >
         <img
-          src={`http://image.tmdb.org/t/p/w500/${movie?.poster_path}`}
+          src={`${IMG_BASE_URL}${movie?.poster_path}`}
           alt={movie?.title}
           style={{
             height: "450px",
@@ -72,7 +87,6 @@ const MovieDetails: FC = () => {
           </div>
         </div>
       </div>
-
       <div
         style={{
           fontSize: "30px",
@@ -84,8 +98,16 @@ const MovieDetails: FC = () => {
         <hr style={{ color: "#3498db", border: "3px solid" }} />
       </div>
 
+      {creditsStatus === "loading" && <div>Loading...</div>}
+      {creditsStatus === "error" && <div>Error loading data</div>}
       <div
-        style={{ display: "inline-flex", width: "95%", overflowX: "scroll" }}
+        style={{
+          margin: "30px",
+          marginLeft: "45px",
+          display: "inline-flex",
+          width: "95%",
+          overflowX: "scroll",
+        }}
       >
         {credits?.cast.map((actor) => {
           return (
@@ -105,7 +127,7 @@ const MovieDetails: FC = () => {
                   <img
                     src={
                       actor.profile_path
-                        ? `http://image.tmdb.org/t/p/w500/${actor.profile_path}`
+                        ? `${IMG_BASE_URL}/${actor.profile_path}`
                         : "https://i.pinimg.com/736x/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg"
                     }
                     alt={actor.name}
@@ -125,7 +147,8 @@ const MovieDetails: FC = () => {
           );
         })}
       </div>
-
+      {recommendedStatus === "loading" && <div>Loading...</div>}
+      {recommendedStatus === "error" && <div>Error fetching data</div>}
       <div
         style={{
           fontSize: "30px",
@@ -149,7 +172,7 @@ const MovieDetails: FC = () => {
           return (
             <div style={{ textAlign: "center" }}>
               <Poster
-                imgPath={`http://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                imgPath={`${IMG_BASE_URL}/${movie.poster_path}`}
                 movieTitle={movie.title}
                 id={movie.id}
               />
@@ -172,6 +195,11 @@ const MovieDetails: FC = () => {
       </div>
     </>
   );
+
+  // return (
+
+  //   </>
+  // );
 };
 
 export default MovieDetails;
