@@ -1,23 +1,30 @@
 import React, { FC, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Credits, Movie, Results } from "../types";
-import Poster from "../components/Poster";
-import { API_KEY, BASE_URL, IMG_BASE_URL } from "../constants";
+import MoviePoster from "../components/MoviePoster";
+import {
+  ANON_PROFILE,
+  API_KEY,
+  BASE_URL,
+  IMG_BASE_URL,
+  MOVIE_CLAPPER,
+} from "../constants";
 import { useQuery } from "@tanstack/react-query";
+import CastPoster from "../components/CastPoster";
 
 const fetchMovie = async (id: string | undefined) => {
-  const res = await fetch(`${BASE_URL}${id}?api_key=${API_KEY}`);
+  const res = await fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}`);
   return res.json();
 };
 
 const fetchCredits = async (id: string | undefined) => {
-  const res = await fetch(`${BASE_URL}${id}/credits?api_key=${API_KEY}`);
+  const res = await fetch(`${BASE_URL}/movie/${id}/credits?api_key=${API_KEY}`);
   return res.json();
 };
 
 const fetchRecommended = async (id: string | undefined) => {
   const res = await fetch(
-    `${BASE_URL}${id}/recommendations?api_key=${API_KEY}`
+    `${BASE_URL}/movie/${id}/recommendations?api_key=${API_KEY}`
   );
   return res.json();
 };
@@ -36,7 +43,6 @@ const MovieDetails: FC = () => {
     ["recommendations", id],
     (): Promise<Results> | undefined => fetchRecommended(id)
   );
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
@@ -116,33 +122,26 @@ const MovieDetails: FC = () => {
                 display: "inline-flex",
               }}
             >
-              <Link to="/">
-                <div
-                  style={{
-                    color: "#ffffff",
-                    margin: "30px",
-                    textAlign: "center",
-                  }}
-                >
-                  <img
-                    src={
-                      actor.profile_path
-                        ? `${IMG_BASE_URL}/${actor.profile_path}`
-                        : "https://i.pinimg.com/736x/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg"
-                    }
-                    alt={actor.name}
-                    style={{
-                      width: "150px",
-                      height: "auto",
-                      margin: "30px",
-                      boxShadow: "10px 10px 5px #444444",
-                      borderRadius: "5px",
-                    }}
-                  />
-                  <div style={{ fontSize: "20px" }}>{actor.name}</div>
-                  <div>{actor.character}</div>
-                </div>
-              </Link>
+              <div
+                style={{
+                  color: "#ffffff",
+                  margin: "30px",
+                  textAlign: "center",
+                }}
+              >
+                <CastPoster
+                  id={actor.id}
+                  imgPath={
+                    actor.profile_path
+                      ? `${IMG_BASE_URL}${actor.profile_path}`
+                      : `${ANON_PROFILE}`
+                  }
+                  name={actor.name}
+                  key={actor.id}
+                />
+                <div style={{ fontSize: "20px" }}>{actor.name}</div>
+                <div>{actor.character}</div>
+              </div>
             </div>
           );
         })}
@@ -170,36 +169,30 @@ const MovieDetails: FC = () => {
       >
         {recommended?.results.map((movie) => {
           return (
-            <div style={{ textAlign: "center" }}>
-              <Poster
-                imgPath={`${IMG_BASE_URL}/${movie.poster_path}`}
+            <div style={{ textAlign: "center" }} key={movie.id}>
+              <MoviePoster
+                imgPath={
+                  movie.poster_path
+                    ? `${IMG_BASE_URL}/${movie.poster_path}`
+                    : `${MOVIE_CLAPPER}`
+                }
                 movieTitle={movie.title}
                 id={movie.id}
               />
-              <Link
-                to={`/movie/${movie.id}`}
-                style={{ textDecoration: "none" }}
+              <h3
+                style={{
+                  color: "#ffffff",
+                  wordWrap: "break-word",
+                }}
               >
-                <h3
-                  style={{
-                    color: "#ffffff",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  {movie.title}
-                </h3>
-              </Link>
+                {movie.title}
+              </h3>
             </div>
           );
         })}
       </div>
     </>
   );
-
-  // return (
-
-  //   </>
-  // );
 };
 
 export default MovieDetails;
