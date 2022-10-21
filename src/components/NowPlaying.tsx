@@ -45,7 +45,7 @@ export const NowPlaying: FC = () => {
           marginLeft: "45px",
           display: "inline-flex",
           width: "95%",
-          overflowX: "auto",
+          overflowX: "scroll",
         }}
       >
         {movies?.results.map((movie) => {
