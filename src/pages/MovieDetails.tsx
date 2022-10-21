@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Credits, Movie, Results } from "../../types";
-import Poster from "../movies/Poster";
+import { Credits, Movie, Results } from "../types";
+import Poster from "../components/Poster";
 
 const MovieDetails: FC = () => {
   const [movie, setMovie] = useState<Movie>();

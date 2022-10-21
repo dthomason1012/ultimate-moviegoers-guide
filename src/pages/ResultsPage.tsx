@@ -1,9 +1,8 @@
 import React, { FC, useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { Results } from "../../types";
-import Poster from "../movies/Poster";
-import ResultsList from "../ResultsList";
-import { ReactComponent as SearchIcon } from "../../icons/icons8-search.svg";
+import { Link } from "react-router-dom";
+import { Results } from "../types";
+import Poster from "../components/Poster";
+import { ReactComponent as SearchIcon } from "../icons/icons8-search.svg";
 
 const ResultsPage: FC = () => {
   const [input, setInput] = useState("");
