@@ -3,12 +3,12 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import { Results } from "../types";
 import { formatReleaseDate } from "../utils/formatReleaseDate";
-import Poster from "./Poster";
+import Poster from "./MoviePoster";
 import { API_KEY, BASE_URL, IMG_BASE_URL } from "../constants";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchMovies = async () => {
-  const res = await fetch(`${BASE_URL}top_rated?api_key=${API_KEY}`);
+  const res = await fetch(`${BASE_URL}/movie/top_rated?api_key=${API_KEY}`);
   return res.json();
 };
 

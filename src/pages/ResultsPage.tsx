@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Results } from "../types";
-import Poster from "../components/Poster";
+import Poster from "../components/MoviePoster";
 import { ReactComponent as SearchIcon } from "../icons/icons8-search.svg";
 
 const ResultsPage: FC = () => {
