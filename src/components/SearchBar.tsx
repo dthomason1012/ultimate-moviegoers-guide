@@ -1,7 +1,5 @@
-import React, { CSSProperties, FC, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import React, { FC, useState } from "react";
 import { ReactComponent as SearchIcon } from "../../icons/icons8-search.svg";
-import { Results } from "../../types";
 
 const SearchBar: FC = () => {
   const [input, setInput] = useState("");
