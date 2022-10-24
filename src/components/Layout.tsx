@@ -43,7 +43,11 @@ const Layout: FC<Props> = ({ children }) => {
         </Link>
       </Header>
       <Body
-        style={{ backgroundColor: "#555555", height: "100%", width: "100%" }}
+        style={{
+          backgroundColor: "#515c5d",
+          height: "100%",
+          width: "100%",
+        }}
       >
         {children}
       </Body>

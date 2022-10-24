@@ -7,7 +7,7 @@ import NotFound from "./pages/NotFound";
 import MovieDetails from "./pages/MovieDetails";
 import ResultsPage from "./pages/ResultsPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { CastMemberDetails } from "./pages/CastMemberDetails";
+import { ActorDetails } from "./pages/ActorDetails";
 
 function App() {
   const queryClient = new QueryClient();
@@ -19,7 +19,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/movie/:id" element={<MovieDetails />} />
-            <Route path="/person/:id" element={<CastMemberDetails />} />
+            <Route path="/person/:id" element={<ActorDetails />} />
             <Route path="/search" element={<ResultsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
