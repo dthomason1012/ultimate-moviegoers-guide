@@ -64,7 +64,7 @@ const MovieDetails: FC = () => {
           style={{
             height: "450px",
             width: "300px",
-            boxShadow: "10px 10px 5px #444444",
+            boxShadow: "10px 10px 5px #222222",
             borderRadius: "5px",
           }}
         />

@@ -23,7 +23,7 @@ const MoviePoster: FC<Props> = ({ imgPath, movieTitle, id }) => {
         cursor: "pointer",
         transform: hovering ? "scale(1.2)" : undefined,
         transition: "transform .2s",
-        boxShadow: "10px 10px 5px #444444",
+        boxShadow: "10px 10px 5px #222222",
         borderRadius: "5px",
       }}
       onMouseEnter={() => {
