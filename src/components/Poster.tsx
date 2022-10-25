@@ -2,33 +2,33 @@ import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-  imgPath?: string;
-  movieTitle: string;
+  imgPath: string;
+  name: string;
   id: number;
+  type: "person" | "movie";
 }
 
-const MoviePoster: FC<Props> = ({ imgPath, movieTitle, id }) => {
+const Poster: FC<Props> = ({ imgPath, name, id, type }) => {
   const [hovering, setHovering] = useState(false);
   const navigate = useNavigate();
-
   return (
     <div className="m-9 h-60 w-40">
       <img
         src={imgPath}
-        alt={movieTitle}
+        alt={name}
         className={`bg-white cursor-pointer
-          ${hovering ? "scale-110" : ""}
-          transition-transform rounded
-          object-fill shadow-black shadow-lg
-        `}
+        ${hovering ? "scale-110" : ""}
+        transition-transform rounded
+        object-fill shadow-black shadow-lg
+      `}
         onMouseEnter={() => {
           setHovering(true);
         }}
         onMouseLeave={() => setHovering(false)}
-        onClick={() => navigate(`/movie/${id}}`)}
+        onClick={() => navigate(`/${type}/${id}}`)}
       />
     </div>
   );
 };
 
-export default MoviePoster;
+export default Poster;
