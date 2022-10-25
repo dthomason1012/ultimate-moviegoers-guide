@@ -6,6 +6,7 @@ import { formatReleaseDate } from "../utils/formatReleaseDate";
 import Poster from "./Poster";
 import { API_KEY, BASE_URL, IMG_BASE_URL } from "../constants";
 import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "./LoadingSpinner";
 
 const fetchMovies = async () => {
   const res = await fetch(`${BASE_URL}/movie/top_rated?api_key=${API_KEY}`);
@@ -19,7 +20,9 @@ export const TopRated: FC = () => {
   );
 
   return status === "loading" ? (
-    <div>Loading...</div>
+    <div className="grid place-items-center">
+      <LoadingSpinner />
+    </div>
   ) : status === "error" ? (
     <div>Error fetching data</div>
   ) : (

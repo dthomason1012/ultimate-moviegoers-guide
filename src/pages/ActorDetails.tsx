@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import LoadingSpinner from "../components/LoadingSpinner";
 import { API_KEY, BASE_URL, IMG_BASE_URL } from "../constants";
 import { Actor } from "../types";
 import { formatReleaseDate } from "../utils/formatReleaseDate";
@@ -23,7 +24,11 @@ export const ActorDetails = () => {
 
   return (
     <>
-      {status === "loading" && <div>Loading...</div>}
+      {status === "loading" && (
+        <div className="grid place-items-center">
+          <LoadingSpinner />
+        </div>
+      )}
       {status === "error" && <div>Error fetching data</div>}
       <div className="p-8 text-center grid place-items-center">
         <img
