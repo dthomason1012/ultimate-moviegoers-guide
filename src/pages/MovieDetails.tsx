@@ -10,6 +10,7 @@ import {
   MOVIE_CLAPPER,
 } from "../constants";
 import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const fetchMovie = async (id: string | undefined) => {
   const res = await fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}`);
@@ -47,29 +48,38 @@ const MovieDetails: FC = () => {
   }, [id]);
 
   return (
-    <>
-      {movieStatus === "loading" && <div>Loading...</div>}
+    <div className="h-full">
       {movieStatus === "error" && <div>Error fetching data</div>}
       <div className="p-7 grid place-items-center text-center">
-        <img
-          src={`${IMG_BASE_URL}${movie?.poster_path}`}
-          alt={movie?.title}
-          className="h-96 w-72 shadow-md shadow-black rounded"
-        />
-        <div>
-          <div className="text-white p-5 text-4xl">{movie?.title}</div>
-          <div className="text-white mb-5 ml-5 text-2xl">
-            ({movie?.vote_average})
-          </div>
-          <div className="text-white m-5 text-xl">{movie?.overview}</div>
-        </div>
+        {movieStatus === "loading" ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            <img
+              src={`${IMG_BASE_URL}${movie?.poster_path}`}
+              alt={movie?.title}
+              className="h-96 w-72 shadow-md shadow-black rounded"
+            />
+            <div>
+              <div className="text-white p-5 text-4xl">{movie?.title}</div>
+              <div className="text-white mb-5 ml-5 text-2xl">
+                ({movie?.vote_average})
+              </div>
+              <div className="text-white m-5 text-xl">{movie?.overview}</div>
+            </div>
+          </>
+        )}
       </div>
       <div className="text-3xl p-9 text-white">
         Cast
         <hr className="border-sky-500 border-2" />
       </div>
 
-      {creditsStatus === "loading" && <div>Loading...</div>}
+      {creditsStatus === "loading" && (
+        <div className="grid place-items-center">
+          <LoadingSpinner />
+        </div>
+      )}
       {creditsStatus === "error" && <div>Error loading data</div>}
       <div className="m-7 inline-flex w-11/12 overflow-x-scroll">
         {credits?.cast.map((actor) => {
@@ -94,7 +104,11 @@ const MovieDetails: FC = () => {
           );
         })}
       </div>
-      {recommendedStatus === "loading" && <div>Loading...</div>}
+      {recommendedStatus === "loading" && (
+        <div className="grid place-items-center">
+          <LoadingSpinner />
+        </div>
+      )}
       {recommendedStatus === "error" && <div>Error fetching data</div>}
       <div className="text-3xl p-7 text-white">
         Recommended
@@ -119,7 +133,7 @@ const MovieDetails: FC = () => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
 
