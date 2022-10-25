@@ -13,56 +13,24 @@ const Layout: FC<Props> = ({ children }) => {
   const [hovering, setHovering] = useState(false);
 
   return (
-    <div style={{ backgroundColor: "#2b3233" }}>
-      <Header
-        style={{
-          backgroundColor: "#2b3233",
-          color: "#ffffff",
-          padding: "50px",
-          boxSizing: "border-box",
-          width: "100%",
-          fontSize: "32px",
-          fontWeight: "bold",
-          display: "inline-flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <Link to="/" style={{ color: "#ffffff", textDecoration: "none" }}>
+    <div className="bg-zinc-800">
+      <Header>
+        <Link to="/" className="text-white no-underline">
           The Ultimate Moviegoer's Guide
         </Link>
         <Link
           to="/search"
-          style={{
-            transform: hovering ? "scale(1.2)" : undefined,
-            transition: "transform .2s",
-          }}
+          className={`${hovering ? "scale-125" : undefined}
+              transition-transform
+          `}
           onMouseEnter={() => setHovering(true)}
           onMouseLeave={() => setHovering(false)}
         >
           <SearchIcon />
         </Link>
       </Header>
-      <Body
-        style={{
-          backgroundColor: "#515c5d",
-          height: "100%",
-          width: "100%",
-        }}
-      >
-        {children}
-      </Body>
-      <Footer
-        style={{
-          backgroundColor: "#2b3233",
-          justifyContent: "center",
-          color: "#646464",
-          padding: "20px",
-          boxSizing: "border-box",
-          position: "static",
-          bottom: 0,
-          width: "100%",
-        }}
-      />
+      <Body>{children}</Body>
+      <Footer />
     </div>
   );
 };

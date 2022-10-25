@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Credits, Movie, Results } from "../types";
-import MoviePoster from "../components/MoviePoster";
+import Poster from "../components/Poster";
 import {
   ANON_PROFILE,
   API_KEY,
@@ -10,7 +10,6 @@ import {
   MOVIE_CLAPPER,
 } from "../constants";
 import { useQuery } from "@tanstack/react-query";
-import CastPoster from "../components/CastPoster";
 
 const fetchMovie = async (id: string | undefined) => {
   const res = await fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}`);
@@ -51,85 +50,34 @@ const MovieDetails: FC = () => {
     <>
       {movieStatus === "loading" && <div>Loading...</div>}
       {movieStatus === "error" && <div>Error fetching data</div>}
-      <div
-        style={{
-          padding: "30px",
-          justifyContent: "space-between",
-          textAlign: "center",
-        }}
-      >
+      <div className="p-7 grid place-items-center text-center">
         <img
           src={`${IMG_BASE_URL}${movie?.poster_path}`}
           alt={movie?.title}
-          style={{
-            height: "450px",
-            width: "300px",
-            boxShadow: "10px 10px 5px #222222",
-            borderRadius: "5px",
-          }}
+          className="h-96 w-72 shadow-md shadow-black rounded"
         />
         <div>
-          <div style={{ color: "white", padding: "20px", fontSize: "40px" }}>
-            {movie?.title}
-          </div>
-          <div
-            style={{
-              color: "white",
-              marginBottom: "20px",
-              marginLeft: "20px",
-              fontSize: "24px",
-            }}
-          >
+          <div className="text-white p-5 text-4xl">{movie?.title}</div>
+          <div className="text-white mb-5 ml-5 text-2xl">
             ({movie?.vote_average})
           </div>
-          <div
-            style={{
-              color: "white",
-              margin: "20px",
-              fontSize: "20px",
-            }}
-          >
-            {movie?.overview}
-          </div>
+          <div className="text-white m-5 text-xl">{movie?.overview}</div>
         </div>
       </div>
-      <div
-        style={{
-          fontSize: "30px",
-          padding: "30px",
-          color: "white",
-        }}
-      >
+      <div className="text-3xl p-9 text-white">
         Cast
-        <hr style={{ color: "#3498db", border: "3px solid" }} />
+        <hr className="border-sky-500 border-2" />
       </div>
 
       {creditsStatus === "loading" && <div>Loading...</div>}
       {creditsStatus === "error" && <div>Error loading data</div>}
-      <div
-        style={{
-          margin: "30px",
-          marginLeft: "45px",
-          display: "inline-flex",
-          width: "95%",
-          overflowX: "scroll",
-        }}
-      >
+      <div className="m-7 inline-flex w-11/12 overflow-x-scroll">
         {credits?.cast.map((actor) => {
           return (
-            <div
-              style={{
-                display: "inline-flex",
-              }}
-            >
-              <div
-                style={{
-                  color: "#ffffff",
-                  margin: "30px",
-                  textAlign: "center",
-                }}
-              >
-                <CastPoster
+            <div className="inline-flex">
+              <div className="text-white m-5 text-center">
+                <Poster
+                  type="person"
                   id={actor.id}
                   imgPath={
                     actor.profile_path
@@ -139,8 +87,8 @@ const MovieDetails: FC = () => {
                   name={actor.name}
                   key={actor.id}
                 />
-                <div style={{ fontSize: "20px" }}>{actor.name}</div>
-                <div>{actor.character}</div>
+                <div className="text-xl">{actor.name}</div>
+                <div className="text-lg text-gray-400">{actor.character}</div>
               </div>
             </div>
           );
@@ -148,45 +96,25 @@ const MovieDetails: FC = () => {
       </div>
       {recommendedStatus === "loading" && <div>Loading...</div>}
       {recommendedStatus === "error" && <div>Error fetching data</div>}
-      <div
-        style={{
-          fontSize: "30px",
-          padding: "30px",
-          color: "white",
-        }}
-      >
+      <div className="text-3xl p-7 text-white">
         Recommended
-        <hr style={{ color: "#19b092", border: "3px solid" }} />
+        <hr className="border-emerald-500 border-2" />
       </div>
-      <div
-        style={{
-          margin: "30px",
-          marginLeft: "45px",
-          display: "inline-flex",
-          width: "95%",
-          overflowX: "auto",
-        }}
-      >
+      <div className="m-7 inline-flex w-11/12 overflow-x-scroll">
         {recommended?.results.map((movie) => {
           return (
-            <div style={{ textAlign: "center" }} key={movie.id}>
-              <MoviePoster
+            <div className="text-center" key={movie.id}>
+              <Poster
+                type="movie"
                 imgPath={
                   movie.poster_path
                     ? `${IMG_BASE_URL}/${movie.poster_path}`
                     : `${MOVIE_CLAPPER}`
                 }
-                movieTitle={movie.title}
+                name={movie.title}
                 id={movie.id}
               />
-              <h3
-                style={{
-                  color: "#ffffff",
-                  wordWrap: "break-word",
-                }}
-              >
-                {movie.title}
-              </h3>
+              <h3 className="text-white break-words">{movie.title}</h3>
             </div>
           );
         })}

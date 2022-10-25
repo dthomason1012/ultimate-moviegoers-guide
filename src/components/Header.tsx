@@ -6,7 +6,11 @@ interface Props {
 }
 
 const Header: FC<Props> = ({ style, children }) => {
-  return <div style={style}>{children}</div>;
+  return (
+    <div className="bg-zinc-800 text-2xl p-12 box-border w-full font-bold flex justify-between">
+      {children}
+    </div>
+  );
 };
 
 export default Header;

@@ -5,7 +5,11 @@ interface Props {
 }
 
 const Footer: FC<Props> = ({ style }) => {
-  return <div style={style}>&copy; 2022 Dan Thomason</div>;
+  return (
+    <div className="bg-zinc-800 flex justify-center text-zinc-500 p-5 box-border absolute w-full">
+      &copy; 2022 Dan Thomason
+    </div>
+  );
 };
 
 export default Footer;

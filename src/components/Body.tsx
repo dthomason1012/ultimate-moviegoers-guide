@@ -8,7 +8,7 @@ interface Props {
 // #515C5D
 
 const Body: FC<Props> = ({ style, children }) => {
-  return <div style={style}>{children}</div>;
+  return <div className="bg-gray-700 h-full w-full">{children}</div>;
 };
 
 export default Body;

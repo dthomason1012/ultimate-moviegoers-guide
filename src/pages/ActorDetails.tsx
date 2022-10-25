@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { API_KEY, BASE_URL, IMG_BASE_URL } from "../constants";
 import { Actor } from "../types";
 import { formatReleaseDate } from "../utils/formatReleaseDate";
@@ -12,7 +12,6 @@ const fetchActor = async (id: string | undefined) => {
 
 export const ActorDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { data: actor, status } = useQuery(
     ["person", id],
     (): Promise<Actor> | undefined => fetchActor(id)
@@ -26,46 +25,31 @@ export const ActorDetails = () => {
     <>
       {status === "loading" && <div>Loading...</div>}
       {status === "error" && <div>Error fetching data</div>}
-      <div
-        style={{
-          padding: "30px",
-          justifyContent: "space-between",
-          textAlign: "center",
-        }}
-      >
+      <div className="p-8 text-center grid place-items-center">
         <img
           src={`${IMG_BASE_URL}${actor?.profile_path}`}
           alt={actor?.name}
-          style={{
-            height: "450px",
-            width: "300px",
-            boxShadow: "10px 10px 5px #222222",
-            borderRadius: "5px",
-          }}
+          className="w-72 h-auto shadow-md shadow-black rounded"
         />
         <div>
-          <div style={{ color: "white", padding: "20px", fontSize: "40px" }}>
-            {actor?.name}
-          </div>
-          {actor && <div>Born: {formatReleaseDate(actor.birthday)}</div>}
+          <div className="text-white p-5 text-4xl">{actor?.name}</div>
+          {actor && (
+            <div className="text-gray-400">
+              Born: {formatReleaseDate(actor.birthday)}
+            </div>
+          )}
           {actor?.deathday && (
-            <div>Died: {formatReleaseDate(actor.deathday)}</div>
+            <div className="text-gray-400">
+              Died: {formatReleaseDate(actor.deathday)}
+            </div>
           )}
         </div>
-        <div
-          style={{
-            color: "white",
-            margin: "20px",
-            fontSize: "20px",
-          }}
-        >
-          {actor?.biography}
-        </div>
+        <div className="text-white m-5 text-xl">{actor?.biography}</div>
         <a
           href={`https://www.imdb.com/name/${actor?.imdb_id}/?ref_=fn_al_nm_1`}
           target="_blank"
           rel="noreferrer"
-          style={{ textDecoration: "none", color: "#dddddd" }}
+          className="no-underline text-gray-400"
         >
           IMDb Page
         </a>

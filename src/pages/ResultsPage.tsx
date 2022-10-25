@@ -25,25 +25,11 @@ const ResultsPage: FC = () => {
   }, [input]);
 
   return (
-    <div
-      style={{
-        textAlign: "center",
-      }}
-    >
-      <div
-        style={{
-          textAlign: "center",
-          display: "inline-flex",
-          margin: "30px",
-        }}
-      >
-        <form style={{ display: "inline-flex" }}>
+    <div className="text-center">
+      <div className="text-center inline-flex m-8">
+        <form className="inline-flex">
           <input
-            style={{
-              width: "400px",
-              fontSize: "18px",
-              padding: "20px",
-            }}
+            className="w-96 text-lg p-5"
             type="search"
             placeholder="Search Movies"
             value={input}
@@ -56,44 +42,22 @@ const ResultsPage: FC = () => {
           results.results.map((movie) => {
             return (
               <div>
-                <div style={{ textAlign: "center" }}>
+                <div className="grid place-items-center">
                   <Poster
                     imgPath={`http://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                     movieTitle={movie.title}
                     id={movie.id}
                   />
-                  <Link
-                    to={`/movie/${movie.id}`}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <h3
-                      style={{
-                        color: "#ffffff",
-                        wordWrap: "break-word",
-                      }}
-                    >
-                      {movie.title}
-                    </h3>
+                  <Link to={`/movie/${movie.id}`} className="no-underline">
+                    <h3 className="text-white break-words">{movie.title}</h3>
                   </Link>
                 </div>
               </div>
             );
           })
         ) : (
-          <div
-            style={{
-              color: "#ffffff",
-              fontSize: "40px",
-              margin: "30px",
-              fontWeight: "bold",
-              height: "100vh",
-            }}
-          >
-            <SearchIcon
-              style={{
-                transform: "scale(1.3)",
-              }}
-            />{" "}
+          <div className="text-white text-4xl m-8 font-bold h-screen inline-flex">
+            <SearchIcon className="scale-125" />
             Search for movies
           </div>
         )}

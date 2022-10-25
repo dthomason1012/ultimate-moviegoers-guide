@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import { Results } from "../types";
 import { formatReleaseDate } from "../utils/formatReleaseDate";
-import Poster from "./MoviePoster";
+import Poster from "./Poster";
 import { API_KEY, BASE_URL, IMG_BASE_URL } from "../constants";
 import { useQuery } from "@tanstack/react-query";
 
@@ -24,52 +24,24 @@ export const NowPlaying: FC = () => {
     <div>Error fetching data</div>
   ) : (
     <>
-      <div
-        style={{
-          fontSize: "30px",
-          padding: "30px",
-          color: "white",
-        }}
-      >
+      <div className="text-3xl p-7 text-white">
         Now Playing
-        <hr
-          style={{
-            color: "#3498db",
-            border: "3px solid",
-          }}
-        />
+        <hr className="border-sky-500 border-2" />
       </div>
-      <div
-        style={{
-          margin: "30px",
-          marginLeft: "45px",
-          display: "inline-flex",
-          width: "95%",
-          overflowX: "scroll",
-        }}
-      >
+      <div className="m-9 inline-flex w-11/12 overflow-x-scroll">
         {movies?.results.map((movie) => {
           return (
-            <div style={{ textAlign: "center" }} key={movie.id}>
+            <div className="text-center" key={movie.id}>
               <Poster
+                type="movie"
                 id={movie.id}
                 imgPath={`${IMG_BASE_URL}${movie.poster_path}`}
-                movieTitle={movie.title}
+                name={movie.title}
               />
-              <Link
-                to={`/movie/${movie.id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <h3
-                  style={{
-                    color: "#ffffff",
-                    wordWrap: "break-word",
-                  }}
-                >
-                  {movie.title}
-                </h3>
+              <Link to={`/movie/${movie.id}`} className="no-underline">
+                <h3 className="text-white break-words">{movie.title}</h3>
               </Link>
-              <p style={{ color: "#cccccc" }}>
+              <p className="text-gray-400">
                 {formatReleaseDate(movie.release_date)}
               </p>
             </div>
